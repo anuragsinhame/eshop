@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import publicCss from "../public.module.css";
+
 import { savePaymentMethod } from "../actions/cartActions";
 import CheckoutSteps from "../components/CheckoutSteps";
 
@@ -21,7 +24,7 @@ export default function PaymentMethodScreen(props) {
   return (
     <div>
       <CheckoutSteps step1 step2 step3></CheckoutSteps>
-      <form className="form" onSubmit={submitHandler}>
+      <form className={publicCss.form} onSubmit={submitHandler}>
         <div>
           <h1>Payment Method</h1>
         </div>
@@ -42,25 +45,13 @@ export default function PaymentMethodScreen(props) {
             <input
               type="radio"
               name="paymentMethod"
-              id="paypal"
-              value="PayPal"
+              id="others"
+              value="others"
               required
-              checked
+              disabled
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
-            <label htmlFor="paypal">PayPal</label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              name="paymentMethod"
-              id="stripe"
-              value="Strip"
-              required
-              checked
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            <label htmlFor="stripe">Stripe</label>
+            <label htmlFor="others">Others (Will be available soon)</label>
           </div>
           <div>
             <button type="submit" className="primary">

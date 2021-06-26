@@ -1,96 +1,54 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Route, Link } from "react-router-dom";
-import { signout } from "./actions/userActions";
+import { Redirect, Route, BrowserRouter } from "react-router-dom";
+import AdminRoute from "./components/AdminRoute";
+
+import publicCss from "./public.module.css";
+import Header from "./components/Header";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 import CartScreen from "./screens/CartScreen";
-// import { Route } from "react-router-dom/cjs/react-router-dom.min";
-import HomeScreen from "./screens/HomeScreen";
-import OrderHistoryScreen from "./screens/OrderHistoryScreen";
-import OrderScreen from "./screens/OrderScreen";
-import PaymentMethodScreen from "./screens/PaymentMethodScreen";
-import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import ProductScreen from "./screens/ProductScreen";
-import ProfileScreen from "./screens/ProfileScreen";
+import SigninScreen from "./screens/SigninScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen";
-import SigninScreen from "./screens/SigninScreen";
-
+import PaymentMethodScreen from "./screens/PaymentMethodScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
+import OrderScreen from "./screens/OrderScreen";
+import OrderHistoryScreen from "./screens/OrderHistoryScreen";
+import CategoryScreen from "./screens/CategoryScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import AdminHomeScreen from "./admin/screens/AdminHomeScreen";
+import HomeScreen from "./screens/HomeScreen";
 import PrivateRoute from "./components/PrivateRoute";
+import { useSelector } from "react-redux";
+// import { SET_NON_ADMIN_PAGE } from "./constants/storeConstants";
 
 function App() {
-  const cart = useSelector((state) => state.cart);
-  const cartItems = cart.cartItems;
+  const { isAdminPage } = useSelector((state) => state.adminPageStatus);
+  // console.log("Admin", isAdminPage);
 
-  const userSignin = useSelector((state) => state.userSignin);
-  const { userInfo } = userSignin;
+  // const dispatch = useDispatch();
+  // const location = useLocation();
 
-  const dispatch = useDispatch();
-  const signoutHandler = () => {
-    dispatch(signout());
-  };
+  // const matching = matchPath("admin/", { path: location, exact: false });
+  // console.log("matching", matching);
+
+  // console.log("Location", location.pathname);
+  // useEffect(() => {
+  //   console.log("Is Admin Page", isAdminPage);
+  //   // dispatch({ type: SET_NON_ADMIN_PAGE });
+  //   console.log("New Admin Page", isAdminPage);
+  // }, [dispatch]);
 
   return (
     <BrowserRouter>
-      <div className="grid-container">
-        <header className="row">
-          <div>
-            <Link className="brand" to="/">
-              Eshop
-            </Link>
-          </div>
-          <div>
-            <Link to="/cart">
-              Cart
-              {cartItems.length > 0 && (
-                <span className="badge">{cartItems.length}</span>
-              )}
-            </Link>
-            {userInfo ? (
-              <div className="dropdown">
-                <Link to="#">
-                  {userInfo.name} <i className="fa fa-caret-down"></i>
-                </Link>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/profile">User Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/orderhistory">Order History</Link>
-                  </li>
-                  <li>
-                    {" "}
-                    <Link to="#signout" onClick={signoutHandler}>
-                      Sign Out
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            ) : (
-              <Link to="/signin">Sign In</Link>
-            )}
-            {userInfo && userInfo.isAdmin && (
-              <div className="dropdown">
-                <Link to="#admin" onClick={signoutHandler}>
-                  Admin <i className="fa fa-caret-down"></i>
-                </Link>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/dashboard">Dashboard</Link>
-                  </li>
-                  <li>
-                    <Link to="/productlist">Products</Link>
-                  </li>
-                  <li>
-                    <Link to="/orderlist">Orders</Link>
-                  </li>
-                  <li>
-                    <Link to="/userlist">Users</Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </header>
+      <div className={publicCss.gridContainer}>
+        {!isAdminPage && (
+          <>
+            <Header />
+            <NavBar />
+          </>
+        )}
         <main>
           {/* "?" is added so that id can be empty and user can be redirected to cart component */}
           <Route path="/cart/:id?" component={CartScreen}></Route>
@@ -102,13 +60,21 @@ function App() {
           <Route path="/placeorder" component={PlaceOrderScreen}></Route>
           <Route path="/order/:id" component={OrderScreen}></Route>
           <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
+          <Route
+            path="/products/:catId/:subCatId?"
+            component={CategoryScreen}
+          ></Route>
+          <Route path="/products" exact={true}>
+            <Redirect to="/"></Redirect>
+          </Route>
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}
           ></PrivateRoute>
+          <AdminRoute path="/admin" component={AdminHomeScreen}></AdminRoute>
           <Route path="/" component={HomeScreen} exact={true}></Route>
         </main>
-        <footer className="row center">All Rights Reserved</footer>
+        {!isAdminPage && <Footer />}
       </div>
     </BrowserRouter>
   );

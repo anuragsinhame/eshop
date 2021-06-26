@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import publicCss from "../public.module.css";
+
 import Rating from "../components/Rating";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { detailsProduct } from "../actions/productActions";
 // import data from "../data";
+
+const STATIC_HOST = process.env.REACT_APP_STATIC_HOST_URL;
 
 export default function ProductScreen(props) {
   // const product = data.products.find(
@@ -43,7 +47,7 @@ export default function ProductScreen(props) {
           <Link to="/">Back to Result</Link>
           <div className="row top">
             <div className="col-2">
-              <img className="large" src={product.image} alt={product.name} />
+              <img className="large" src={STATIC_HOST+product.image} alt={product.name} />
             </div>
             <div className="col-1">
               <ul>
@@ -61,12 +65,12 @@ export default function ProductScreen(props) {
               </ul>
             </div>
             <div className="col-1">
-              <div className="card card-body">
+              <div className={`${publicCss.card} ${publicCss.cardBody}`}>
                 <ul>
                   <li>
                     <div className="row">
                       <div>Price</div>
-                      <div className="price">₹{product.price}</div>
+                      <div className={publicCss.price}>₹{product.price}</div>
                     </div>
                   </li>
                   <li>

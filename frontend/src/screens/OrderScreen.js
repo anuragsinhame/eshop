@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { PayPalButton } from "react-paypal-button-v2";
+// import { PayPalButton } from "react-paypal-button-v2";
+
+import publicCss from "../public.module.css";
 
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { detailsOrder, payOrder } from "../actions/orderActions";
-import axios from "axios";
+import { detailsOrder } from "../actions/orderActions";
+// import axios from "axios";
 import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
-const API_URL = process.env.REACT_APP_API_URL;
+// const API_URL = process.env.REACT_APP_API_URL;
+const STATIC_HOST = process.env.REACT_APP_STATIC_HOST_URL;
+
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
-  const [sdkReady, setSdkReady] = useState(false);
+  // const [sdkReady, setSdkReady] = useState(false);
   const orderDetails = useSelector((state) => state.orderDetails);
   const { loading, order, error } = orderDetails;
 
   const orderPay = useSelector((state) => state.orderPay);
   const {
-    loading: loadingPay,
-    error: errorPay,
+    // loading: loadingPay,
+    // error: errorPay,
     success: successPay,
   } = orderPay;
 
@@ -27,35 +31,35 @@ export default function OrderScreen(props) {
 
   // if the value of any dependency variable will change, the useEffect function will be executed
   useEffect(() => {
-    const addPayPalScript = async () => {
-      const { data } = await axios.get(`${API_URL}/api/config/paypal`);
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
-    };
+    // const addPayPalScript = async () => {
+    //   const { data } = await axios.get(`${API_URL}/api/config/paypal`);
+    //   const script = document.createElement("script");
+    //   script.type = "text/javascript";
+    //   script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+    //   script.async = true;
+    //   script.onload = () => {
+    //     setSdkReady(true);
+    //   };
+    //   document.body.appendChild(script);
+    // };
     if (!order || successPay || (order && order._id !== orderId)) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch(detailsOrder(orderId));
     } else {
-      if (!order.isPaid) {
-        if (!window.paypal) {
-          addPayPalScript();
-        } else {
-          setSdkReady(true);
-        }
-      }
+      // if (!order.isPaid) {
+      //   if (!window.paypal) {
+      //     addPayPalScript();
+      //   } else {
+      //     setSdkReady(true);
+      //   }
+      // }
     }
     // dispatch(detailsOrder(orderId));
-  }, [dispatch, order, orderId, sdkReady, successPay]); //kept the dependency as order instead of "order._id", because order can be null as well
+  }, [dispatch, order, orderId, successPay]); //kept the dependency as order instead of "order._id", because order can be null as well
 
-  const successPaymentHandler = (paymentResult) => {
-    dispatch(payOrder(order, paymentResult));
-  };
+  // const successPaymentHandler = (paymentResult) => {
+  //   dispatch(payOrder(order, paymentResult));
+  // };
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -68,7 +72,7 @@ export default function OrderScreen(props) {
         <div className="col-2">
           <ul>
             <li>
-              <div className="card card-body">
+              <div className={`${publicCss.card} ${publicCss.cardBody}`}>
                 <h2>Shipping</h2>
                 <p>
                   <strong>Name:</strong>
@@ -89,7 +93,7 @@ export default function OrderScreen(props) {
               </div>
             </li>
             <li>
-              <div className="card card-body">
+              <div className={`${publicCss.card} ${publicCss.cardBody}`}>
                 <h2>Payment</h2>
                 <p>
                   <strong>Method:</strong> {order.paymentMethod}
@@ -104,7 +108,7 @@ export default function OrderScreen(props) {
               </div>
             </li>
             <li>
-              <div className="card card-body">
+              <div className={`${publicCss.card} ${publicCss.cardBody}`}>
                 <h2>Order Items</h2>
                 <ul>
                   {order.orderItems.map((item) => (
@@ -112,7 +116,7 @@ export default function OrderScreen(props) {
                       <div className="row">
                         <div>
                           <img
-                            src={item.image}
+                            src={STATIC_HOST+item.image}
                             alt={item.name}
                             className="small"
                           />
@@ -134,7 +138,7 @@ export default function OrderScreen(props) {
           </ul>
         </div>
         <div className="col-1">
-          <div className="card card-body">
+          <div className={`${publicCss.card} ${publicCss.cardBody}`}>
             <ul>
               <li>
                 <h2>Order Summary</h2>
@@ -167,7 +171,7 @@ export default function OrderScreen(props) {
                   </div>
                 </div>
               </li>
-              <li>
+              {/* <li>
                 {!order.isPaid && (
                   <li>
                     {!sdkReady ? (
@@ -186,7 +190,7 @@ export default function OrderScreen(props) {
                     )}
                   </li>
                 )}
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
