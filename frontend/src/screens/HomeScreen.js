@@ -10,7 +10,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import ProductCard from "../components/ProductCard";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { listProducts } from "../actions/productActions";
+import { bestSellingProducts } from "../actions/productActions";
 // import data from "../data";  //local import commented
 
 import { StoreConstants } from "../storeData";
@@ -48,7 +48,7 @@ export default function HomeScreen() {
   // }, []);
 
   useEffect(() => {
-    dispatch(listProducts());
+    dispatch(bestSellingProducts());
   }, [dispatch]);
 
   return (

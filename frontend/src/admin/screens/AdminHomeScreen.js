@@ -44,6 +44,14 @@ export default function AdminHomeScreen() {
       <div className={adminCss.gridContainer}>
         <nav className={adminCss.sideNavbar}>
           <div className={adminCss.component}>
+            <a href="/">
+              <div className={adminCss.componentImage}>
+                <i className="fas.fa-store"></i>
+              </div>
+              <div className={adminCss.componentText}>Go Back</div>
+            </a>
+          </div>
+          <div className={adminCss.component}>
             <Link to="/admin/StoreDetails">
               <div className={adminCss.componentImage}>
                 <i className="fas.fa-store"></i>

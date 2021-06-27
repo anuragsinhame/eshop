@@ -1,9 +1,9 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Route, Link, Redirect } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 
 import publicCss from "../public.module.css";
-import { signout } from "../actions/userActions";
+// import { signout } from "../actions/userActions";
 import CartScreen from "../screens/CartScreen";
 // import { Route } from "react-router-dom/cjs/react-router-dom.min";
 import HomeScreen from "../screens/HomeScreen";
@@ -20,66 +20,27 @@ import SigninScreen from "../screens/SigninScreen";
 import NavBar from "./NavBar";
 import PrivateRoute from "./PrivateRoute";
 
-import { StoreConstants } from "../storeData";
+// import { StoreConstants } from "../storeData";
 import CategoryScreen from "../screens/CategoryScreen";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export default function PublicLayout() {
-  const cart = useSelector((state) => state.cart);
-  const cartItems = cart.cartItems;
+  // const cart = useSelector((state) => state.cart);
+  // const cartItems = cart.cartItems;
 
-  const userSignin = useSelector((state) => state.userSignin);
-  const { userInfo } = userSignin;
+  // const userSignin = useSelector((state) => state.userSignin);
+  // const { userInfo } = userSignin;
 
-  const dispatch = useDispatch();
-  const signoutHandler = () => {
-    dispatch(signout());
-  };
+  // const dispatch = useDispatch();
+  // const signoutHandler = () => {
+  //   dispatch(signout());
+  // };
 
   return (
     <BrowserRouter>
       <div className={publicCss.gridContainer}>
-        <header className={`${publicCss.header} row`}>
-          <div>
-            <Link className={publicCss.brand} to="/">
-              {StoreConstants.shopName}
-            </Link>
-          </div>
-          <div></div>
-          <div>
-            <Link to="/cart">
-              Cart
-              {cartItems.length > 0 && (
-                <span className={publicCss.badge}>{cartItems.length}</span>
-              )}
-            </Link>
-            {userInfo ? (
-              <div className={publicCss.dropdown}>
-                <Link to="#">
-                  {userInfo.name} <i className="fa fa-caret-down"></i>
-                </Link>
-                <ul className={publicCss.dropdownContent}>
-                  <li>
-                    <Link to="/profile">User Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/orderhistory">Order History</Link>
-                  </li>
-                  <li>
-                    {" "}
-                    <Link to="#signout" onClick={signoutHandler}>
-                      Sign Out
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            ) : (
-              <Link to="/signin">Sign In</Link>
-            )}
-            {userInfo && userInfo.isAdmin && (
-              <a href="/admin">Admin Dashboard</a>
-            )}
-          </div>
-        </header>
+        <Header />
         {/* Adding Navigation Bar */}
         <NavBar />
         <main>
@@ -106,7 +67,7 @@ export default function PublicLayout() {
           ></PrivateRoute>
           <Route path="/" component={HomeScreen} exact={true}></Route>
         </main>
-        <footer className="row center">All Rights Reserved</footer>
+        <Footer />
       </div>
     </BrowserRouter>
   );

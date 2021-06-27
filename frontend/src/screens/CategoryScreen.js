@@ -29,7 +29,7 @@ export default function CategoryScreen(props) {
       {loading ? (
         <LoadingBox />
       ) : error ? (
-        <MessageBox variant="danger">{error}</MessageBox>
+        <MessageBox variant="message">No Products to display</MessageBox>
       ) : (
         <div className={publicCss.productsBox}>
           {/* <Link to="/">Back to Result</Link> */}

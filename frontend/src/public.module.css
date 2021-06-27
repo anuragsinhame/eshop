@@ -1,3 +1,14 @@
+/*
+Primary Color - #272727
+Header and Navbar Text - #ffffff
+Navbar Hover
+  BgColor - #000000
+  Text Color - #ff8000
+  Text Color - #ff8000
+
+
+*/
+
 /* Public Layout */
 .gridContainer {
   display: grid;
@@ -13,13 +24,43 @@
 
 .header {
   grid-area: header;
-  background-color: #203040;
+  /* background-color: #203040; */
+  background-color: #272727;
 }
 
 .nav {
   grid-area: nav;
-  background-color: #75a4d3;
+  /* background-color: #75a4d3; */
+  background-color: #bb0606;
   padding-left: 10%;
+}
+
+/* Search Bar */
+.searchDiv {
+  width: 40%;
+}
+
+.searchDiv input {
+  width: 70%;
+  float: left;
+}
+
+.searchDiv button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196f3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+.searchDiv::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 .main {
@@ -117,21 +158,29 @@ a.brand:hover {
 .dropdownContent {
   position: absolute;
   display: none;
-  right: 0;
+  /* right: 0; */
   min-width: 12rem;
-  padding: 1rem;
+  /* padding: 1rem; */
   z-index: 1;
-  background-color: #203040;
+  background-color: #272727;
   margin: 0;
-  margin-top: 0.4rem;
+  padding-top: 1.4rem;
   border-radius: 0.5rem;
 }
 
 .dropdown:hover .dropdownContent {
   display: block;
-  width: 25rem;
+  width: 23rem;
+  z-index: 100;
 }
 
+.dropdown:hover .dropdownContent li {
+  margin: 0;
+  padding: 1rem;
+}
+.dropdown:hover .dropdownContent li:hover {
+  background-color: #000000;
+}
 /* Checkout Steps */
 .checkoutSteps > div {
   border-top: 0.3rem #c0c0c0 solid;

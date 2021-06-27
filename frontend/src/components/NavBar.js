@@ -13,17 +13,19 @@ export default function NavBar() {
   const { isAdminPage } = useSelector((state) => state.adminPageStatus);
 
   useEffect(() => {
-    if (!isAdminPage) {
-      axios
-        .get(`${API_URL}/api/category`)
-        .then(({ data }) => {
-          setCategoryData(data.CategoryData);
-        })
-        .catch((err) => {
-          setError(true);
-          console.log(`Error in getting category from Server ${err}`);
-        });
+    async function getCategoryData() {
+      // if (!isAdminPage) {
+      try {
+        setError(false);
+        const { data } = await axios.get(`${API_URL}/api/category`);
+        setCategoryData(data.CategoryData);
+      } catch (error) {
+        setError(true);
+        console.log(`Error in getting category from Server ${error}`);
+      }
     }
+    // }
+    getCategoryData();
   }, [isAdminPage]);
 
   return (

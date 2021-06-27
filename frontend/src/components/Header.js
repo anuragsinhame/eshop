@@ -45,7 +45,16 @@ export default function Header() {
           {StoreName}
         </Link>
       </div>
-      <div></div>
+      <div className={publicCss.searchDiv}>
+        <input
+          type="text"
+          name="search"
+          placeholder="Looking for something? Search here.."
+        />
+        <button type="button">
+          <i className="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
       <div>
         <Link to="/cart">
           Cart
@@ -77,7 +86,7 @@ export default function Header() {
           <Link to="/signin">Sign In</Link>
         )}
         {userInfo && userInfo.isAdmin && (
-          <Link to="/admin">Admin Dashboard</Link>
+          <a href="/admin">Admin Dashboard</a>
         )}
       </div>
     </header>

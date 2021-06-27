@@ -14,6 +14,14 @@ productRouter.get(
   })
 );
 
+productRouter.get(
+  "/bestselling",
+  expressAsyncHandler(async (req, res) => {
+    const products = await Product.find({}).limit(10);
+    res.status(200).send(products);
+  })
+);
+
 productRouter.post(
   "/seed",
   expressAsyncHandler(async (req, res) => {
